@@ -1,5 +1,9 @@
 import GhostContentAPI, { PostsOrPages } from '@tryghost/content-api';
 
+interface GhostError extends Error {
+    message: string;
+}
+
 // For development, we'll use a valid 26-character key based on the provided key
 const DEV_API_KEY = 'b0efad4a2d34b71a04468e7675' + '0';  // Adding '0' to make it 26 chars
 
@@ -26,9 +30,10 @@ export async function getPosts(): Promise<PostsOrPages[]> {
 
         console.log(`Successfully fetched ${posts.length} posts`);
         return posts;
-    } catch (err) {
+    } catch (error: unknown) {
+        const err = error as GhostError;
         console.error('Error fetching posts:', err);
-        throw new Error(`Failed to fetch posts: ${err.message}`);
+        throw new Error(`Failed to fetch posts: ${err.message || 'Unknown error'}`);
     }
 }
 
@@ -40,7 +45,8 @@ export async function getNewsletters(): Promise<PostsOrPages[]> {
                 filter: 'tag:newsletter',
                 include: ['tags', 'authors']
             });
-    } catch (err) {
+    } catch (error: unknown) {
+        const err = error as GhostError;
         console.error('Error fetching newsletters:', err);
         return [];
     }
@@ -53,7 +59,8 @@ export async function getSinglePost(slug: string): Promise<PostsOrPages | null> 
                 slug,
                 include: ['tags', 'authors']
             });
-    } catch (err) {
+    } catch (error: unknown) {
+        const err = error as GhostError;
         console.error('Error fetching post:', err);
         return null;
     }
