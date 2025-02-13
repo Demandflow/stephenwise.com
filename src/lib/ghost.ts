@@ -1,4 +1,4 @@
-import GhostContentAPI from '@tryghost/content-api';
+import GhostContentAPI, { PostsOrPages } from '@tryghost/content-api';
 
 // For development, we'll use a valid 26-character key based on the provided key
 const DEV_API_KEY = 'b0efad4a2d34b71a04468e7675' + '0';  // Adding '0' to make it 26 chars
@@ -10,7 +10,7 @@ const api = new GhostContentAPI({
     version: 'v5.0'
 });
 
-export async function getPosts() {
+export async function getPosts(): Promise<PostsOrPages[]> {
     try {
         return await api.posts
             .browse({
@@ -23,7 +23,7 @@ export async function getPosts() {
     }
 }
 
-export async function getNewsletters() {
+export async function getNewsletters(): Promise<PostsOrPages[]> {
     try {
         return await api.posts
             .browse({
@@ -37,7 +37,7 @@ export async function getNewsletters() {
     }
 }
 
-export async function getSinglePost(slug: string) {
+export async function getSinglePost(slug: string): Promise<PostsOrPages | null> {
     try {
         return await api.posts
             .read({
