@@ -86,5 +86,11 @@ declare module '@tryghost/content-api' {
         version: string;
     }
 
-    export default function GhostContentAPI(options: GhostContentAPIOptions): GhostAPI;
+    export default class GhostContentAPI {
+        constructor(options: GhostContentAPIOptions);
+        posts: {
+            browse: (params?: BrowseParams) => Promise<PostsOrPages[]>;
+            read: (params: ReadParams) => Promise<PostsOrPages>;
+        };
+    }
 } 
