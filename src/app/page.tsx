@@ -1,4 +1,5 @@
 import { getPosts } from '@/lib/ghost';
+import { PostsOrPages } from '@tryghost/content-api';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,7 +10,7 @@ export default async function Home() {
         <main className="container mx-auto px-4 py-8">
             <h1 className="text-4xl font-bold mb-8 text-center">Stephen Wise</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {posts.map((post: any) => (
+                {posts.map((post: PostsOrPages) => (
                     <article key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         {post.feature_image && (
                             <div className="relative h-48 w-full">

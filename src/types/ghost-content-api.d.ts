@@ -63,13 +63,13 @@ declare module '@tryghost/content-api' {
     }
 
     export interface BrowseParams {
-        include?: string;
+        include?: string[] | string;
         limit?: string | 'all';
         filter?: string;
     }
 
     export interface ReadParams {
-        include?: string;
+        include?: string[] | string;
         slug: string;
     }
 
