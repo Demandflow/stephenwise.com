@@ -12,14 +12,23 @@ const api = new GhostContentAPI({
 
 export async function getPosts(): Promise<PostsOrPages[]> {
     try {
-        return await api.posts
+        console.log('Attempting to fetch posts with config:', {
+            url: process.env.GHOST_API_URL || 'http://localhost:2368',
+            key: process.env.NODE_ENV === 'development' ? 'DEV_KEY_PRESENT' : (process.env.GHOST_CONTENT_API_KEY ? 'API_KEY_PRESENT' : 'NO_API_KEY'),
+            env: process.env.NODE_ENV
+        });
+
+        const posts = await api.posts
             .browse({
                 limit: 'all',
                 include: ['tags', 'authors']
             });
+
+        console.log(`Successfully fetched ${posts.length} posts`);
+        return posts;
     } catch (err) {
         console.error('Error fetching posts:', err);
-        return [];
+        throw new Error(`Failed to fetch posts: ${err.message}`);
     }
 }
 
